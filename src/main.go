@@ -8,9 +8,11 @@ import (
 
 func main() {
 	engine := gin.Default()
+	engine.LoadHTMLGlob("templates/*.html")
+
 	engine.GET("/", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"message": "Hello!",
+		c.HTML(http.StatusOK, "index.html", gin.H{
+			"title": "Go for it!",
 		})
 	})
 	engine.Run(":3000")
