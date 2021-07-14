@@ -1,4 +1,4 @@
-FROM golang
+FROM golang:1.16.6-buster
 
 LABEL maintainer = "tomomo@eclairpark@gmail.com"
 
