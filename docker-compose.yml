@@ -1,7 +1,8 @@
-version: '3'
+version: "3"
 
 services:
   api:
+    container_name: "go-for-it_api"
     build:
       context: .
       dockerfile: ./docker/api/Dockerfile
@@ -10,3 +11,31 @@ services:
     ports:
       - 5500:3000
     tty: true
+  db:
+    container_name: "go-for-it_db"
+    image: medico-lamp_mariadb55
+    restart: always
+    volumes:
+      - data:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=development
+      - MYSQL_USER=devuser
+      - MYSQL_PASSWORD=devpass
+  phpmyadmin:
+    container_name: "go-for-it_phpmyadmin"
+    image: phpmyadmin/phpmyadmin:latest
+    restart: always
+    depends_on:
+      - db
+    ports:
+      - "5306:80"
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOST=db
+      - PMA_USER=root
+      - PMA_PASSWORD=root
+volumes:
+  data:
+    external: true
+    name: goforit
